@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cozy Café - 一杯のコーヒーから始まる、特別な時間</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'ヒラギノ角ゴ Pro W3', 'Meiryo', sans-serif;
+            line-height: 1.6;
+            color: #4a3429;
+            background: 
+                linear-gradient(rgba(255, 255, 255, 0.85), rgba(250, 248, 245, 0.90)),
+                url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(92, 51, 23, 0.95);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #d4a574;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #f5f1eb;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #d4a574;
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(74, 52, 41, 0.4));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="coffee" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23coffee)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #5c3317;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '☕';
+            display: block;
+            font-size: 2rem;
+            margin-top: 1rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-category {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid #d4a574;
+        }
+
+        .menu-category h3 {
+            color: #5c3317;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 2px solid #d4a574;
+            padding-bottom: 0.5rem;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px dotted #d4a574;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-weight: bold;
+            color: #4a3429;
+        }
+
+        .item-description {
+            font-size: 0.9rem;
+            color: #6b4e3d;
+            margin-top: 0.2rem;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: #8b4513;
+            font-size: 1.1rem;
+        }
+
+        .info-section {
+            background: linear-gradient(135deg, #f5f1eb 0%, #ede4d3 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .hours-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .hours-header {
+            background: #5c3317;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .hours-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .hours-row:last-child {
+            border-bottom: none;
+        }
+
+        .hours-row:nth-child(even) {
+            background-color: #faf8f5;
+        }
+
+        .map-container {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, #d4a574, #a0522d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info h3 {
+            color: #5c3317;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 0.5rem;
+            color: #4a3429;
+        }
+
+        .instagram-section {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #5c3317 0%, #8b4513 100%);
+            color: white;
+        }
+
+
+        footer {
+            background: #2c1810;
+            color: #d4a574;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4a574 0%, #a0522d 100%);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4);
+            margin: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 165, 116, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+                background-attachment: scroll;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0.5rem 0;
+            }
+
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+
+            .section {
+                padding: 2rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Cozy Café</div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">ホーム</a></li>
+                        <li><a href="#menu">メニュー</a></li>
+                        <li><a href="#info">店舗情報</a></li>
+                        <li><a href="#instagram">Instagram</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Cozy Café</h1>
+            <p>一杯のコーヒーから始まる、特別な時間</p>
+            <a href="#menu" class="cta-button">メニューを見る</a>
+            <a href="#info" class="cta-button">店舗情報</a>
+        </div>
+    </section>
+
+
+    <section id="menu" class="section">
+        <div class="container">
+            <h2 class="section-title">メニュー</h2>
+            <div class="menu-grid">
+                <div class="menu-category">
+                    <h3>コーヒー・エスプレッソ</h3>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">ブレンドコーヒー</div>
+                            <div class="item-description">当店自慢のオリジナルブレンド</div>
+                        </div>
+                        <div class="item-price">¥450</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">エスプレッソ</div>
+                            <div class="item-description">濃厚な香りと深いコク</div>
+                        </div>
+                        <div class="item-price">¥350</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">カプチーノ</div>
+                            <div class="item-description">ふわふわミルクフォーム</div>
+                        </div>
+                        <div class="item-price">¥500</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">カフェラテ</div>
+                            <div class="item-description">アートラテも承ります</div>
+                        </div>
+                        <div class="item-price">¥520</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">アメリカーノ</div>
+                            <div class="item-description">すっきりとした味わい</div>
+                        </div>
+                        <div class="item-price">¥400</div>
+                    </div>
+                </div>
+
+                <div class="menu-category">
+                    <h3>紅茶・その他ドリンク</h3>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">アールグレイ</div>
+                            <div class="item-description">上品なベルガモットの香り</div>
+                        </div>
+                        <div class="item-price">¥420</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">ダージリン</div>
+                            <div class="item-description">紅茶の王様</div>
+                        </div>
+                        <div class="item-price">¥450</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">チャイラテ</div>
+                            <div class="item-description">スパイス香るミルクティー</div>
+                        </div>
+                        <div class="item-price">¥480</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">フレッシュオレンジジュース</div>
+                            <div class="item-description">搾りたて100%</div>
+                        </div>
+                        <div class="item-price">¥380</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">アイスティー</div>
+                            <div class="item-description">レモン・ピーチから選択</div>
+                        </div>
+                        <div class="item-price">¥350</div>
+                    </div>
+                </div>
+
+                <div class="menu-category">
+                    <h3>フード・スイーツ</h3>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">クロワッサンサンド</div>
+                            <div class="item-description">ハム&チーズ / サーモン&アボカド</div>
+                        </div>
+                        <div class="item-price">¥680</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">パンケーキ</div>
+                            <div class="item-description">季節のフルーツ&メープルシロップ</div>
+                        </div>
+                        <div class="item-price">¥850</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">チーズケーキ</div>
+                            <div class="item-description">なめらかニューヨークスタイル</div>
+                        </div>
+                        <div class="item-price">¥480</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">ティラミス</div>
+                            <div class="item-description">自家製マスカルポーネ使用</div>
+                        </div>
+                        <div class="item-price">¥520</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">スコーン</div>
+                            <div class="item-description">ジャム&クリーム付き</div>
+                        </div>
+                        <div class="item-price">¥420</div>
+                    </div>
+                </div>
+
+                <div class="menu-category">
+                    <h3>モーニング（11:00まで）</h3>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">モーニングセット</div>
+                            <div class="item-description">トースト+サラダ+ドリンク</div>
+                        </div>
+                        <div class="item-price">¥650</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">エッグベネディクト</div>
+                            <div class="item-description">イングリッシュマフィン+ポーチドエッグ</div>
+                        </div>
+                        <div class="item-price">¥880</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="item-name">フレンチトースト</div>
+                            <div class="item-description">ふわとろ食感+季節フルーツ</div>
+                        </div>
+                        <div class="item-price">¥780</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="info" class="section">
+        <div class="container">
+            <h2 class="section-title">店舗情報</h2>
+            <div class="info-section">
+                <div class="info-grid">
+                    <div>
+                        <div class="hours-table">
+                            <div class="hours-header">営業時間</div>
+                            <div class="hours-row">
+                                <span><strong>月曜日</strong></span>
+                                <span>定休日</span>
+                            </div>
+                            <div class="hours-row">
+                                <span><strong>火～金</strong></span>
+                                <span>7:30 - 20:00</span>
+                            </div>
+                            <div class="hours-row">
+                                <span><strong>土曜日</strong></span>
+                                <span>8:00 - 21:00</span>
+                            </div>
+                            <div class="hours-row">
+                                <span><strong>日・祝</strong></span>
+                                <span>8:00 - 19:00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info" style="margin-top: 2rem;">
+                            <h3>お問い合わせ</h3>
+                            <p><strong>📞 電話:</strong> 03-1234-5678</p>
+                            <p><strong>📧 メール:</strong> info@cozycafe.com</p>
+                            <p><strong>📍 住所:</strong> 〒150-0001<br>東京都渋谷区神宮前1-2-3<br>カフェビル1F</p>
+                            <p><strong>🚇 アクセス:</strong><br>JR原宿駅 徒歩5分<br>地下鉄明治神宮前駅 徒歩3分</p>
+                            <p><strong>💳 支払い方法:</strong><br>現金・クレジットカード・電子マネー</p>
+                        </div>
+                    </div>
+                    
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.741956435515!2d139.70270831523967!3d35.67012098019774!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188ca4f7321e4b%3A0x8e97ad7d15b7b69c!2z5Y6f5a6_6aeF!5e0!3m2!1sja!2sjp!4v1648123456789!5m2!1sja!2sjp"
+                            width="100%" 
+                            height="300" 
+                            style="border:0; border-radius: 15px;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="instagram" class="instagram-section">
+        <div class="container">
+            <h2>Instagram</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">@cozy_cafe_official</p>
+            <a href="#" class="cta-button" style="margin-top: 2rem;">Instagramをフォロー</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Cozy Café. All rights reserved.</p>
+            <p>一杯のコーヒーから始まる、特別な時間</p>
+        </div>
+    </footer>
+</body>
+</html>
